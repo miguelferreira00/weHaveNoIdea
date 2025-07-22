@@ -1,46 +1,48 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { router } from 'expo-router';
 import { GlobalStyles } from '../styles/globalStyles';
 import { Button, Card } from '../components/ui';
 
 export default function Index() {
   return (
-    <ScrollView style={GlobalStyles.container}>
-      <View style={GlobalStyles.center}>
-        <Text style={GlobalStyles.title}>Bem-vindo ao Rankly!</Text>
-        <Text style={[GlobalStyles.textLight, { textAlign: 'center', marginBottom: 30 }]}>
-          Participe de desafios e suba no ranking
-        </Text>
+      <View style={styles.container}>
+        {/* Friends Group Image */}
+        <View style={styles.imageContainer}>
+          <Image source={require('../assets/images/test/groupIndex.png')}
+            style={styles.backgroundImage} />
+        </View>
 
-        <Card title="Acesso Rápido" variant="primary">
-          <Button
-            title="Entrar no App"
-            variant="primary"
-            size="large"
-            onPress={() => router.push('/(tabs)/home')}
-          />
+        <View>
+          <Image source={require('../assets/images/test/indexButtonsContainer.png')}/>
+        </View>
+        
 
-          <Button
-            title="Fazer Login"
-            variant="secondary"
-            onPress={() => router.push('/(auth)/login')}
-          />
-
-          <Button
-            title="Criar Conta"
-            variant="outline"
-            onPress={() => router.push('/(auth)/sign_up')}
-          />
-        </Card>
-
-        <Card title="Sobre o Rankly">
-          <Text style={GlobalStyles.text}>
-            Uma plataforma onde você pode participar de desafios incríveis,
-            competir com outros usuários e subir no ranking global!
-          </Text>
-        </Card>
       </View>
-    </ScrollView>
+      
   );
+}
+
+const styles = {
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#FFF2F2',
+  },
+
+  backgroundImage: {
+    width: '100%',
+    height: '300',
+    resizeMode: 'cover',
+
+  },
+
+  imageContainer: {
+    position: 'absolute',  // Garante controle total da posição
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
 }
