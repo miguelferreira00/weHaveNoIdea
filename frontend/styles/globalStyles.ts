@@ -41,7 +41,7 @@ export const BorderRadius = {
   small: 4,
   medium: 8,
   large: 12,
-  xlarge: 16,
+  xlarge: 30,
   circle: 50,
 };
 

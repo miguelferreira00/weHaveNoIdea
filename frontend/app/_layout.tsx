@@ -7,6 +7,9 @@ import { Colors } from '../styles/globalStyles';
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
+	// const [fontsLoaded] = useFonts({
+	// 	PressStart2P: require('../assets/fonts/PressStart2P-Regular.ttf'),
+	//   });
 	useEffect(() => {
 		// Esconde a splash screen quando o app estiver pronto
 		SplashScreen.hideAsync();
@@ -15,21 +18,12 @@ export default function RootLayout() {
 	return (
 		<>
 			<Stack
-				screenOptions={{
-					headerStyle: {
-						backgroundColor: Colors.primary,
-					},
-					headerTintColor: '#fff',
-					headerTitleStyle: {
-						fontWeight: 'bold',
-					},
-				}}
 			>
 				<Stack.Screen
 					name="index"
 					options={{
 						title: 'Home',
-						headerShown: true,
+						headerShown: false,
 					}}
 				/>
 				<Stack.Screen
