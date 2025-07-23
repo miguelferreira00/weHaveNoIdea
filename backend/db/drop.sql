@@ -6,3 +6,4 @@ BEGIN
         EXECUTE 'DROP TABLE IF EXISTS public.' || quote_ident(r.tablename) || ' CASCADE;';
     END LOOP;
 END $$;
+
