@@ -26,7 +26,7 @@ export const FontSizes = {
   huge: 36,
 };
 
-// Espaçamentos
+// Espacamentos
 export const Spacing = {
   xs: 4,
   sm: 8,

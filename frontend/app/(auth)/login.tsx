@@ -2,22 +2,27 @@ import React from 'react';
 import { useFonts } from 'expo-font';
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
-import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
 import { Background } from '@react-navigation/elements';
-
+import { Button } from '../../components/ui/Button';
 
 export default function Login() {
   return (
     <View style={styles.background}>
         {/* Botões */}
-        <Pressable style={styles.button} onPress={() => router.back()}>
-          <Entypo name="chevron-left" size={24} color="white" />
-        </Pressable>
+          
         {/* Relevo */}
         <Image
             source={require('../../assets/images/test/relevoAzulEscuro.png')}
             style={styles.relevoImage}
         />
+
+        <Button 
+            title='' 
+            iconName='left'
+            style={styles.button}
+            onPress={() => router.back()} 
+        />
+        
 
 
         <View style={styles.container}>
@@ -47,7 +52,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#2D336B',
         marginTop: 80,
         marginLeft: 30,
-        transform: [{ scale: 3 }],
+        transform: [{ scale: 2 }],
         borderRadius: 50,
         borderColor: '#000',
         borderWidth: 1,
