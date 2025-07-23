@@ -43,7 +43,7 @@ export default function Index() {
               <Text style={styles.buttonText}>LOGIN</Text>
             </Pressable>
             
-            <Pressable style={[styles.button, styles.secondButton]} onPress={() => console.log('REGISTAR clicado')}>
+            <Pressable style={[styles.button, styles.secondButton]} onPress={() => router.push('/(auth)/sign_up')}>
               <Text style={styles.secondButtonText}>SIGN UP</Text>
             </Pressable>
           </View>

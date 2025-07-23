@@ -20,21 +20,23 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <Stack>
+    <Stack
+	  screenOptions={{
+		headerShown: false,
+	  }}
+	>
+	  {/* Define the initial route */}
       <Stack.Screen
         name="index"
         options={{
-          title: 'Home',
-          headerShown: false,
+          title: 'Index',
         }}
       />
       <Stack.Screen
-        name="profile"
-        options={{
-          title: 'Perfil',
-          presentation: 'modal',
-        }}
-      />
+		name="login"
+		options={{
+		}}
+		/>
     </Stack>
   );
 }

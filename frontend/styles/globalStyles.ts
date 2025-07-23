@@ -13,7 +13,7 @@ export const Colors = {
   black: '#000000',
   gray: '#666666',
   lightGray: '#F5F5F5',
-  background: '#F8F9FA',
+  background: '#FFF2F2',
 };
 
 // Tamanhos de fonte
