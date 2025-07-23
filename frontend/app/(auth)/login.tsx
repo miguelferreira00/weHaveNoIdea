@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFonts } from 'expo-font';
 import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
 import { AntDesign, Ionicons, Entypo } from '@expo/vector-icons';
@@ -20,7 +21,8 @@ export default function Login() {
 
 
         <View style={styles.container}>
-
+            {/* Texto Boas-Vindas */}
+            <Text style={styles.welcomeText}> Welcome Back </Text>
         </View>
     </View>
   );
@@ -47,6 +49,8 @@ const styles = StyleSheet.create({
         marginLeft: 30,
         transform: [{ scale: 3 }],
         borderRadius: 50,
+        borderColor: '#000',
+        borderWidth: 1,
     },
 
     relevoImage:{
@@ -57,5 +61,15 @@ const styles = StyleSheet.create({
         height: 200,
         transform: [{ scale: 4 }, ],
         resizeMode: 'contain',
+    },
+
+    welcomeText: {
+        fontFamily: 'PressStart2P',
+        position: 'absolute',
+        color: '#99',
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginTop: -480,
+        marginLeft: -150,
     }
 });
