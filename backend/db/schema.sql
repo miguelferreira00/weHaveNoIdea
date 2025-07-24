@@ -35,6 +35,16 @@ CREATE TABLE challenge_categories (
     name VARCHAR(50) NOT NULL UNIQUE
 );
 
+-- Categorias do grupo
+CREATE TABLE group_categories (
+    id SERIAL PRIMARY KEY,
+    group_id INT NOT NULL,
+    category_id INT NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (group_id) REFERENCES groups(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES challenge_categories(id) ON DELETE CASCADE
+);
+
 -- Templates de desafios, com categoria e dificuldade
 CREATE TABLE challenge_templates (
     id SERIAL PRIMARY KEY,
@@ -45,7 +55,6 @@ CREATE TABLE challenge_templates (
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (category_id) REFERENCES challenge_categories(id) ON DELETE SET NULL
 );
-
 
 -- Competição semanal por grupo
 CREATE TABLE weekly_competitions (
@@ -73,8 +82,6 @@ CREATE TABLE challenges (
     FOREIGN KEY (template_id) REFERENCES challenge_templates(id) ON DELETE RESTRICT,
     UNIQUE (group_id, challenge_date)
 );
-
-
 
 -- Submissões dos utilizadores por desafio
 CREATE TABLE challenge_submissions (
