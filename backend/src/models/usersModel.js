@@ -17,3 +17,11 @@ export async function findByEmail(email) {
     );
     return result.rows[0];
 }
+
+export async function findById(id) {
+    const result = await query(
+        'SELECT * FROM users WHERE id = $1',
+        [id]
+    );
+    return result.rows[0];
+}

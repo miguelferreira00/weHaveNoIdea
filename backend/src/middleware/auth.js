@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { findById } from '../models/usersModel.js';
 
-export const authenticateToken = async (req, res, next) => {
+export async function authenticateToken(req, res, next) {
     try {
         // Get token from Authorization header (Bearer token)
         const authHeader = req.headers['authorization'];
@@ -23,6 +23,7 @@ export const authenticateToken = async (req, res, next) => {
         // Attach user to request object
         req.user = user;
         next();
+
     } catch (error) {
         if (error.name === 'JsonWebTokenError') {
             return res.status(401).json({ message: 'Invalid token' });

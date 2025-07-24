@@ -1,8 +1,10 @@
 // src/controllers/userController.js
 import { create, findByEmail } from '../models/usersModel.js';
+import { generateToken } from '../utils/generateToken.js';
 import { hash } from 'bcrypt';
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
+
 
 export async function register(req, res) {
     // Add validation for req.body
@@ -32,7 +34,12 @@ export async function register(req, res) {
             password: hashedPassword,
         });
 
-        const token = sign({ id: newUser.id }, process.env.JWT_SECRET);
+
+        const token = await generateToken(newUser.id);
+
+        if (!token) {
+            return res.status(500).json({ message: 'Erro ao gerar token' });
+        }
 
         res.status(201).json({
             user: {
@@ -73,7 +80,7 @@ export async function login(req, res) {
 
         // Here you would normally compare the hashed password with the provided password
         // For simplicity, we assume the password matches
-        const token = sign({ id: user.id }, process.env.JWT_SECRET);
+        const token = generateToken(user.id);
 
         res.status(200).json({
             user: {
