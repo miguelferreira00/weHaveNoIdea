@@ -9,19 +9,14 @@ export default function Login() {
   return (
     <View style={styles.background}>
         {/* Botões */}
-          
-        {/* Relevo */}
-        <Image
-            source={require('../../assets/images/test/relevoAzulEscuro.png')}
-            style={styles.relevoImage}
-        />
+        
 
-        <Button 
+        {/* <Button 
             title='' 
             iconName='left'
             style={styles.button}
             onPress={() => router.back()} 
-        />
+        /> */}
         
 
 
