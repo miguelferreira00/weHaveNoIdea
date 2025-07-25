@@ -59,9 +59,12 @@ const styles = StyleSheet.create({
     appName: {
         fontFamily: 'PressStart2P',
         color: 'white',
-        fontSize: 50,
+        textShadowColor: '#AD5CC9',
+        textShadowOffset: { width: 1.5, height: 1.5 },
+        textShadowRadius: 1,
+        fontSize: 30,
         textAlign: 'center',    
-        marginTop: 30,  
+        marginTop: 10,  
     },
   
     title: {
