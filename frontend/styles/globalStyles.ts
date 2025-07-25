@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 // Cores do app
 export const Colors = {
-  primary: '#4A90E2',
+  primary: '#7886C7',
   secondary: '#F39C12',
   danger: '#E74C3C',
   success: '#27AE60',
