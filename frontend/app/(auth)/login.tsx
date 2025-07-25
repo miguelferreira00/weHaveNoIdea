@@ -33,19 +33,20 @@ export default function Login() {
         <TextInput
             className='emailBox'
             label={'Email'}
-            placeholderTextColor={'gray'}
-            style={styles.inputBox}
-            mode='outlined'
+            mode="outlined"
             value={email}
-            onChangeText={emailText => setEmail(emailText)}
+            onChangeText={setEmail}
+            keyboardType='email-address'
         />
         <TextInput
             className='passwordBox'
-            placeholder='Password'
-            placeholderTextColor={'gray'}
+            label={'Password'}
             style={styles.inputBox}
             value={password}
-            onChangeText={passwordText => setEmail(passwordText)}
+            onChangeText={setPassword}
+            secureTextEntry={true}
+            mode="outlined"
+            keyboardType='default'
         />
       </View>
     </View>
@@ -122,9 +123,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#D3D3D3',
         paddingHorizontal: 12,
         paddingVertical: 10,
-        borderRadius: 20,
-        borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
         fontSize: 20,
     }
   });
