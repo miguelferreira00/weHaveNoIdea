@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
 import { View, Text, Image, Pressable, StyleSheet, Dimensions } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
+import { TextInput } from 'react-native-paper'
 import { Background } from '@react-navigation/elements';
 import { Button } from '../../components/ui/Button';
 import { Colors } from '../../styles/globalStyles';
 
 const { width } = Dimensions.get('window');
-console.log('Cores:', Colors);
 export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   return (
     <View style={styles.container}>
       {/* Fundo azul com texto */}
@@ -27,6 +30,23 @@ export default function Login() {
       <View style={styles.loginContainer}>
         <Text style={styles.title}>Welcome Back</Text>
         <View style={styles.underText}/>
+        <TextInput
+            className='emailBox'
+            label={'Email'}
+            placeholderTextColor={'gray'}
+            style={styles.inputBox}
+            mode='outlined'
+            value={email}
+            onChangeText={emailText => setEmail(emailText)}
+        />
+        <TextInput
+            className='passwordBox'
+            placeholder='Password'
+            placeholderTextColor={'gray'}
+            style={styles.inputBox}
+            value={password}
+            onChangeText={passwordText => setEmail(passwordText)}
+        />
       </View>
     </View>
   );
@@ -41,7 +61,7 @@ const styles = StyleSheet.create({
   
     header: {
         backgroundColor: '#7886C7',
-        height: 300,
+        height: 250,
         justifyContent: 'center',
         alignItems: 'center',
         paddingTop: 40, // Adiciona espaço no topo
@@ -74,11 +94,11 @@ const styles = StyleSheet.create({
         textShadowColor: Colors.primary,
         textShadowOffset: { width: 1.5, height: 1.5 },
         textShadowRadius: 1,
-        marginTop: 20,
+        marginTop: 0,
     },
 
     underText: {
-        width: 100,
+        width: 130,
         height: 5,
         backgroundColor: Colors.primary,
         borderRadius: 10,
@@ -94,5 +114,18 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 70,
         borderTopRightRadius: 70,
     },
+
+    inputBox: {
+        marginTop: 20,
+        width: '80%',
+        height: 60,
+        backgroundColor: '#D3D3D3',
+        paddingHorizontal: 12,
+        paddingVertical: 10,
+        borderRadius: 20,
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
+        fontSize: 20,
+    }
   });
   
