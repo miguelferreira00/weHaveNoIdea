@@ -1,7 +1,7 @@
 // src/controllers/userController.js
 import { create, findByEmail } from '../models/usersModel.js';
 import { generateToken } from '../utils/generateToken.js';
-import { hash } from 'bcrypt';
+import { hash, compare } from 'bcrypt';
 import pkg from 'jsonwebtoken';
 const { sign } = pkg;
 
@@ -58,7 +58,6 @@ export async function register(req, res) {
 }
 
 export async function login(req, res) {
-    // Add validation for req.body
     if (!req.body) {
         return res.status(400).json({ message: 'Request body is missing' });
     }
@@ -78,8 +77,12 @@ export async function login(req, res) {
             return res.status(401).json({ message: 'Credenciais inválidas' });
         }
 
-        // Here you would normally compare the hashed password with the provided password
-        // For simplicity, we assume the password matches
+        const isPasswordValid = await compare(password, user.password_hash);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ message: 'Credenciais inválidas' });
+        }
+
         const token = generateToken(user.id);
 
         res.status(200).json({
@@ -94,6 +97,6 @@ export async function login(req, res) {
         });
     } catch (err) {
         console.error('Erro no login:', err);
-        res.status(500).json({ message: 'Erro interno ao fazer login' });
+        res.status(500).json({ message: 'Erro interno ao fazer login: ' + err.message });
     }
 }

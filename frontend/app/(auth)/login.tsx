@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
-import { View, Text, Image, Pressable, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 import { TextInput } from 'react-native-paper'
@@ -9,9 +9,54 @@ import { Button } from '../../components/ui/Button';
 import { Colors } from '../../styles/globalStyles';
 
 const { width } = Dimensions.get('window');
+
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handleLogin = async () => {
+        if (!email || !password) {
+            Alert.alert('Erro', 'Por favor, preencha todos os campos');
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const response = await fetch('http://localhost:6969/auth/login', { // Substitua pela URL da sua API
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+
+            const data = await response.json();
+
+            console.error('Login response:', data);
+
+            if (response.ok) {
+                // Login bem-sucedido
+                // Aqui você pode salvar o token de autenticação
+                // await AsyncStorage.setItem('authToken', data.token);
+                router.push('/');
+                Alert.alert('Sucesso', 'Login realizado com sucesso!');
+
+            } else if (response.status === 401) {
+                // Erro de login
+                Alert.alert('Erro', data.message || 'Credenciais inválidas');
+            }
+        } catch (error) {
+            Alert.alert('Erro', 'Erro de conexão com o servidor');
+            console.error('Login error:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -48,6 +93,12 @@ export default function Login() {
                     mode="outlined"
                     keyboardType='default'
                     style={styles.inputBox}
+                />
+                <Button
+                    title={isLoading ? "Entrando..." : "Login"}
+                    iconName="login"
+                    onPress={handleLogin}
+                    style={{ width: '80%', marginTop: 20 }}
                 />
             </View>
         </View>
