@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useFonts } from 'expo-font';
-import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert, TouchableOpacity, Animated } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 import { TextInput } from 'react-native-paper'
@@ -10,23 +10,57 @@ import { Button } from '../../components/ui/Button';
 import { Colors } from '../../styles/globalStyles';
 
 
+
 const { width } = Dimensions.get('window');
 
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [emailError, setEmailError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    
+    // Refs para animação de tremor
+    const emailShakeAnimation = useRef(new Animated.Value(0)).current;
+    const passwordShakeAnimation = useRef(new Animated.Value(0)).current;
+
+    const shakeAnimation = (animationValue: Animated.Value) => {
+        Animated.sequence([
+            Animated.timing(animationValue, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(animationValue, { toValue: -10, duration: 100, useNativeDriver: true }),
+            Animated.timing(animationValue, { toValue: 10, duration: 100, useNativeDriver: true }),
+            Animated.timing(animationValue, { toValue: 0, duration: 100, useNativeDriver: true }),
+        ]).start();
+    };
 
     const handleLogin = async () => {
-        if (!email || !password) {
-            Alert.alert('Erro', 'Por favor, preencha todos os campos');
+        // Reset dos erros
+        setEmailError(false);
+        setPasswordError(false);
+
+        let hasError = false;
+
+        if (!email) {
+            setEmailError(true);
+            shakeAnimation(emailShakeAnimation);
+            hasError = true;
+        }
+
+        if (!password) {
+            setPasswordError(true);
+            shakeAnimation(passwordShakeAnimation);
+            hasError = true;
+        }
+
+        if (hasError) {
+            // Alert.alert('Erro', 'Por favor, preencha todos os campos');
             return;
         }
 
         setIsLoading(true);
 
         try {
-            const response = await fetch('http://localhost:6969/auth/login', { // Substitua pela URL da sua API
+            const response = await fetch('https://rankly-9jlj.onrender.com/auth/login', { // Substitua pela URL da sua API
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -78,28 +112,76 @@ export default function Login() {
             <View style={styles.loginContainer}>
                 <Text style={styles.title}>Welcome Back</Text>
                 <View style={styles.underText} />
-                <TextInput
-                    className='emailBox'
-                    label={'Email'}
-                    value={email}
-                    onChangeText={setEmail}
-                    mode='outlined'
-                    keyboardType='email-address'
-                    style={styles.inputBox}
-                    theme={{roundness: 20}}
-                />
-                <TextInput
-                    className='passwordBox'
-                    label={'Password'}
-                    value={password}
-                    onChangeText={setPassword}
-                    mode='outlined'
-                    secureTextEntry={true}
-                    keyboardType='default'
-                    style={styles.inputBox}
-                    theme={{roundness: 20}}
-                    
-                />
+                
+                <Animated.View style={[
+                    { transform: [{ translateX: emailShakeAnimation }] },
+                    { width: '80%' }
+                ]}>
+                    <TextInput
+                        className='emailBox'
+                        label={'Email'}
+                        value={email}
+                        onChangeText={(text) => {
+                            setEmail(text);
+                            if (emailError) setEmailError(false);
+                        }}
+                        mode='outlined'
+                        keyboardType='email-address'
+                        style={[
+                            styles.inputBox,
+                            emailError && styles.inputError
+                        ]}
+                        theme={{
+                            roundness: 20,
+                            colors: {
+                                outline: emailError ? '#FF4444' : undefined,
+                                primary: emailError ? '#FF4444' : undefined,
+                            }
+                        }}
+                        error={emailError}
+                    />
+                    {emailError && (
+                        <Text style={styles.errorMessage}>
+                            Please enter your email
+                        </Text>
+                    )}
+                </Animated.View>
+
+                <Animated.View style={[
+                    { transform: [{ translateX: passwordShakeAnimation }] },
+                    { width: '80%' }
+                ]}>
+                    <TextInput
+                        className='passwordBox'
+                        label={'Password'}
+                        value={password}
+                        onChangeText={(text) => {
+                            setPassword(text);
+                            if (passwordError) setPasswordError(false);
+                        }}
+                        mode='outlined'
+                        secureTextEntry={true}
+                        keyboardType='default'
+                        style={[
+                            styles.inputBox,
+                            passwordError && styles.inputError
+                        ]}
+                        theme={{
+                            roundness: 20,
+                            colors: {
+                                outline: passwordError ? '#FF4444' : undefined,
+                                primary: passwordError ? '#FF4444' : undefined,
+                            }
+                        }}
+                        error={passwordError}
+                    />
+                    {passwordError && (
+                        <Text style={styles.errorMessage}>
+                            Please enter your password
+                        </Text>
+                    )}
+                </Animated.View>
+
                 <TouchableOpacity 
                     onPress={() => router.push('/(auth)/accountRecovery')} 
                     style={styles.forgotContainer}
@@ -122,7 +204,6 @@ export default function Login() {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     container: {
@@ -188,13 +269,30 @@ const styles = StyleSheet.create({
 
     inputBox: {
         marginTop: 20,
-        width: '80%',
+        width: '100%',
         height: 60,
         backgroundColor: 'transparent',
         borderRadius: 30,
         color: 'black',
     },
 
+    inputError: {
+        marginTop: 20,
+        width: '100%',
+        height: 60,
+        backgroundColor: 'transparent',
+        borderRadius: 30,
+        borderColor: Colors.warning,
+    },
+
+    errorMessage: {
+        color: '#FF4444',
+        fontSize: 12,
+        marginTop: 5,
+        marginLeft: 15,
+        fontWeight: '500',
+    },
+    
     forgotContainer: {
         alignSelf: 'flex-end',
         marginRight: '10%',

@@ -6,21 +6,16 @@ import { router } from 'expo-router';
 
 export default function signUp() {
     return(
-        <Button 
-            onPress={function (): void {
-            router.back();
-            }}
-            iconName='arrowleft'
-            style={styles.backButton}
-            useGradient={false}
-        />
+        <Pressable style={styles.backButton} onPress={() => router.back()}>
+
+        </Pressable>
             
     )
 }
 
 const styles = StyleSheet.create({
     backButton: {
-
+        color: 'black',
     }
 
 });
