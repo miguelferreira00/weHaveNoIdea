@@ -19,7 +19,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
-    
+
     // Refs para animação de tremor
     const emailShakeAnimation = useRef(new Animated.Value(0)).current;
     const passwordShakeAnimation = useRef(new Animated.Value(0)).current;
@@ -73,8 +73,6 @@ export default function Login() {
 
             const data = await response.json();
 
-            console.error('Login response:', data);
-
             if (response.ok) {
                 // Login bem-sucedido
                 // Aqui você pode salvar o token de autenticação
@@ -106,13 +104,13 @@ export default function Login() {
                 <Text style={styles.appName}>Rankly</Text>
             </View>
 
-            
+
 
             {/* Formulário de Login */}
             <View style={styles.loginContainer}>
                 <Text style={styles.title}>Welcome Back</Text>
                 <View style={styles.underText} />
-                
+
                 <Animated.View style={[
                     { transform: [{ translateX: emailShakeAnimation }] },
                     { width: '80%' }
@@ -134,8 +132,8 @@ export default function Login() {
                         theme={{
                             roundness: 20,
                             colors: {
-                                outline: emailError ? '#FF4444' : undefined,
-                                primary: emailError ? '#FF4444' : undefined,
+                                outline: emailError ? '#FF4444' : Colors.primary,
+                                primary: emailError ? '#FF4444' : Colors.primary,
                             }
                         }}
                         error={emailError}
@@ -169,8 +167,8 @@ export default function Login() {
                         theme={{
                             roundness: 20,
                             colors: {
-                                outline: passwordError ? '#FF4444' : undefined,
-                                primary: passwordError ? '#FF4444' : undefined,
+                                outline: passwordError ? '#FF4444' : Colors.primary,
+                                primary: passwordError ? '#FF4444' : Colors.primary,
                             }
                         }}
                         error={passwordError}
@@ -182,10 +180,10 @@ export default function Login() {
                     )}
                 </Animated.View>
 
-                <TouchableOpacity 
-                    onPress={() => router.push('/(auth)/accountRecovery')} 
+                <TouchableOpacity
+                    onPress={() => router.push('/(auth)/accountRecovery')}
                     style={styles.forgotContainer}
-                    >
+                >
                     <Text style={styles.forgetPassword}>Forget Password?</Text>
                 </TouchableOpacity>
 
@@ -199,7 +197,7 @@ export default function Login() {
                 {/* Divisor */}
                 <View style={styles.divisorLogin} />
 
-        
+
             </View>
         </View>
     );
@@ -274,6 +272,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         borderRadius: 30,
         color: 'black',
+        borderColor: Colors.primary,
     },
 
     inputError: {
@@ -292,18 +291,18 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         fontWeight: '500',
     },
-    
+
     forgotContainer: {
         alignSelf: 'flex-end',
         marginRight: '10%',
         marginTop: 8,
-      },
-      
+    },
+
 
     forgetPassword: {
         color: 'gray',
-        textDecorationLine: 'none', 
-        fontWeight:'bold',
+        textDecorationLine: 'none',
+        fontWeight: 'bold',
         fontSize: 13,
     },
 
