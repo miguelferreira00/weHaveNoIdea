@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { useFonts } from 'expo-font';
-import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert } from 'react-native';
+import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert, TouchableOpacity } from 'react-native';
 import { router } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 import { TextInput } from 'react-native-paper'
 import { Background } from '@react-navigation/elements';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from '../../components/ui/Button';
 import { Colors } from '../../styles/globalStyles';
+
 
 const { width } = Dimensions.get('window');
 
@@ -70,6 +72,7 @@ export default function Login() {
                 <Text style={styles.appName}>Rankly</Text>
             </View>
 
+            
 
             {/* Formulário de Login */}
             <View style={styles.loginContainer}>
@@ -78,28 +81,43 @@ export default function Login() {
                 <TextInput
                     className='emailBox'
                     label={'Email'}
-                    mode="outlined"
                     value={email}
                     onChangeText={setEmail}
+                    mode='outlined'
                     keyboardType='email-address'
                     style={styles.inputBox}
+                    theme={{roundness: 20}}
                 />
                 <TextInput
                     className='passwordBox'
                     label={'Password'}
                     value={password}
                     onChangeText={setPassword}
+                    mode='outlined'
                     secureTextEntry={true}
-                    mode="outlined"
                     keyboardType='default'
                     style={styles.inputBox}
+                    theme={{roundness: 20}}
+                    
                 />
+                <TouchableOpacity 
+                    onPress={() => router.push('/(auth)/accountRecovery')} 
+                    style={styles.forgotContainer}
+                    >
+                    <Text style={styles.forgetPassword}>Forget Password?</Text>
+                </TouchableOpacity>
+
                 <Button
-                    title={isLoading ? "Entrando..." : "Login"}
+                    title={isLoading ? "Waiting..." : "Login"}
                     iconName="login"
                     onPress={handleLogin}
-                    style={{ width: '80%', marginTop: 20 }}
+                    style={{ width: 260, marginTop: 20 }}
                 />
+
+                {/* Divisor */}
+                <View style={styles.divisorLogin} />
+
+        
             </View>
         </View>
     );
@@ -151,7 +169,7 @@ const styles = StyleSheet.create({
     },
 
     underText: {
-        width: 130,
+        width: 210,
         height: 5,
         backgroundColor: Colors.primary,
         borderRadius: 10,
@@ -173,6 +191,30 @@ const styles = StyleSheet.create({
         width: '80%',
         height: 60,
         backgroundColor: 'transparent',
+        borderRadius: 30,
+        color: 'black',
+    },
 
-    }
+    forgotContainer: {
+        alignSelf: 'flex-end',
+        marginRight: '10%',
+        marginTop: 8,
+      },
+      
+
+    forgetPassword: {
+        color: 'gray',
+        textDecorationLine: 'none', 
+        fontWeight:'bold',
+        fontSize: 13,
+    },
+
+    divisorLogin: {
+        width: 170,
+        height: 3,
+        backgroundColor: 'gray',
+        borderRadius: 10,
+        marginTop: 40,
+        alignSelf: 'center',
+    },
 });
