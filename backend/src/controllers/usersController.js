@@ -24,7 +24,7 @@ export async function register(req, res) {
     try {
         const existingUser = await findByEmail(email);
         if (existingUser) {
-            return res.status(400).json({ message: 'Email já existe' });
+            return res.status(400).json({ message: 'Email already exists' });
         }
 
         const hashedPassword = await hash(password, 10);
@@ -38,7 +38,7 @@ export async function register(req, res) {
         const token = await generateToken(newUser.id);
 
         if (!token) {
-            return res.status(500).json({ message: 'Erro ao gerar token' });
+            return res.status(500).json({ message: 'Error when generating token' });
         }
 
         res.status(201).json({
@@ -49,11 +49,11 @@ export async function register(req, res) {
                 created_at: newUser.created_at
             },
             token,
-            message: "Registo feito com sucesso!"
+            message: "User registered successfully!"
         });
     } catch (err) {
         console.error('Erro no registo:', err);
-        res.status(500).json({ message: 'Erro interno ao registar' });
+        res.status(500).json({ message: 'Internal error ocurred when registering' });
     }
 }
 
@@ -74,13 +74,13 @@ export async function login(req, res) {
     try {
         const user = await findByEmail(email);
         if (!user) {
-            return res.status(401).json({ message: 'Credenciais inválidas' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const isPasswordValid = await compare(password, user.password_hash);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ message: 'Credenciais inválidas' });
+            return res.status(401).json({ message: 'Invalid credentials' });
         }
 
         const token = generateToken(user.id);
@@ -93,10 +93,10 @@ export async function login(req, res) {
                 created_at: user.created_at
             },
             token,
-            message: "Login feito com sucesso!"
+            message: "Login successful!"
         });
     } catch (err) {
         console.error('Erro no login:', err);
-        res.status(500).json({ message: 'Erro interno ao fazer login: ' + err.message });
+        res.status(500).json({ message: 'Erro interno ao fazer login (err:' + err.message + ')' });
     }
 }

@@ -110,7 +110,7 @@ export async function createDailyChallenge(groupId, date = new Date()) {
     );
 
     if (templateResult.rows.length === 0) {
-        throw new Error('Nenhum template de desafio disponível');
+        throw new Error('No challenge templates available');
     }
 
     const templateId = templateResult.rows[0].id;
