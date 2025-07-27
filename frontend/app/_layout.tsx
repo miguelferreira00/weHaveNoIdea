@@ -33,10 +33,15 @@ export default function RootLayout() {
         }}
       />
       <Stack.Screen
-		name="login"
-		options={{
-		}}
-		/>
+        name="login"
+        options={{
+        }}
+		  />
+      <Stack.Screen
+        name="sign_up"
+        options={{
+        }}
+		  />
     </Stack>
   );
 }
