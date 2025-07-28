@@ -8,6 +8,7 @@ import { Background } from '@react-navigation/elements';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button } from '../../components/ui/Button';
 import { Colors } from '../../styles/globalStyles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -76,13 +77,13 @@ export default function Login() {
             if (response.ok) {
                 // Login bem-sucedido
                 // Aqui você pode salvar o token de autenticação
-                // await AsyncStorage.setItem('authToken', data.token);
-                router.push('/');
+                await AsyncStorage.setItem('authToken', data.token);
+                router.push('/(tabs)/home'); // Redireciona para a página inicial após o login
                 Alert.alert('Sucesso', 'Login realizado com sucesso!');
 
             } else if (response.status === 401) {
                 // Erro de login
-                Alert.alert('Erro', data.message || 'Credenciais inválidas');
+                Alert.alert('Error', data.message || 'Credenciais inválidas');
             }
         } catch (error) {
             Alert.alert('Erro', 'Erro de conexão com o servidor');

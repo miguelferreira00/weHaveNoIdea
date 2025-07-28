@@ -3,7 +3,11 @@ import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView } from 're
 import { router } from 'expo-router';
 import { Link } from 'expo-router';
 
-//   export default function Home() {
-//     return ()
-        
-// }; 
+export default function Home() {
+    return (
+        <View>
+            <Text>Home Page</Text>
+        </View>
+    )
+
+}; 
