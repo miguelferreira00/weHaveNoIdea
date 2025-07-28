@@ -96,7 +96,7 @@ export async function login(req, res) {
             message: "Login successful!"
         });
     } catch (err) {
-        console.error('Erro no login:', err);
-        res.status(500).json({ message: 'Erro interno ao fazer login (err:' + err.message + ')' });
+        console.error('Login error:', err);
+        res.status(500).json({ message: 'Internal error occurred while logging in (err:' + err.message + ')' });
     }
 }
