@@ -3,7 +3,7 @@ import { authenticateToken } from '../middleware/auth.js';
 const router = Router();
 import { getRandomChallengeTemplate } from '../controllers/challengesController.js';
 
-// router.use(authenticateToken);
+router.use(authenticateToken);
 
 router.get('/random', getRandomChallengeTemplate);
 
