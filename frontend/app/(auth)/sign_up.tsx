@@ -32,9 +32,10 @@ export default function SignUp() {
     };
 
     const handleSignUp = async () => {
-        // Reset dos erros
+        // Reset de TODOS os erros
         setEmailError(false);
         setPasswordError(false);
+        setUsernameError(false); // Adicione esta linha
 
         let hasError = false;
 
@@ -57,7 +58,6 @@ export default function SignUp() {
         }
 
         if (hasError) {
-            // Alert.alert('Erro', 'Por favor, preencha todos os campos');
             return;
         }
 
@@ -80,7 +80,8 @@ export default function SignUp() {
 
             if (response.ok) {
                 await AsyncStorage.setItem('authToken', data.token);
-                // Alert.alert('Success', 'Sign up completed successfully!');
+                // mostrar api token no console
+                console.log('API Token:', data.token);
                 router.push('/(tabs)/home');
             } else if (response.status === 400) {
                 Alert.alert('Error', data.message || 'An error occurred while signing up.');
@@ -109,7 +110,7 @@ export default function SignUp() {
 
 
             <View style={styles.inputContainer}>
-                
+
                 <Animated.View style={[
                     { transform: [{ translateX: usernameShakeAnimation }] },
                     { width: '80%' }
