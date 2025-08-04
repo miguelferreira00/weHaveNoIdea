@@ -1,4 +1,4 @@
-import { create, getGroups, addMember, deleteGroup, removeMember } from '../models/groupsModel.js';
+import { create, getGroups, addMember, deleteGroup, removeMember, getGroupsByUser } from '../models/groupsModel.js';
 
 
 export async function createGroup(req, res) {
@@ -114,3 +114,21 @@ export async function leaveGroup(req, res) {
         return res.status(500).json({ message: 'Internal server error' });
     }
 }
+
+export async function getUserGroups(req, res) {
+    const userId = req.user.id; // Assuming req.user is set by authentication middleware
+
+    if (!userId) {
+        return res.status(400).json({ message: 'User ID is required (middleware not working properly) | userId: ' + userId });
+    }
+
+    try {
+        const groups = await getGroupsByUser(userId);
+        return res.status(200).json(groups);
+    }
+    catch (error) {
+        console.error('Error fetching user groups:', error);
+        return res.status(500).json({ message: 'Internal server error' });
+    }
+}
+
