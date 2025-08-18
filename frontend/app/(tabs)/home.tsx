@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity, ScrollView, FlatList, Pressable } from 'react-native';
 import { router } from 'expo-router';
 import { Link } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -51,6 +51,7 @@ export default function Home() {
         }
     }
 
+
     useEffect(() => {
         getGroups();
     }, []);
@@ -72,7 +73,9 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Meus Grupos</Text>
+            <Text style={styles.title}>Pronto para jogar?</Text>
+            {/* Divisor */}
+                <View style={styles.divisor} />
 
             {groups.length > 0 ? (
                 <FlatList
@@ -84,6 +87,12 @@ export default function Home() {
             ) : (
                 <Text style={styles.emptyText}>Nenhum grupo encontrado</Text>
             )}
+            <TouchableOpacity 
+                style={styles.addButton}
+                onPress={() => router.push('/(tabs)/groupCreation')}
+            >
+                <Text style={styles.addButtonText}>+</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -93,11 +102,23 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 16,
         backgroundColor: '#fff',
+        alignItems: 'center',
     },
     title: {
         fontSize: 24,
-        fontWeight: 'bold',
         marginBottom: 16,
+        textAlign: 'center',
+        marginTop: 50,
+        fontFamily: 'PressStart2P',
+        color: '#AD5CC9'
+    },
+    divisor:{
+        width: 170,
+        height: 3,
+        backgroundColor: '#AD5CC9',
+        borderRadius: 10,
+        marginTop: 25,
+        alignSelf: 'center',
     },
     groupItem: {
         backgroundColor: '#f5f5f5',
@@ -121,5 +142,18 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#999',
         marginTop: 50,
+    },
+    addButton:{
+        backgroundColor: '#2D336B',
+        width: 60,
+        height: 60,
+        borderRadius: 20,
+        justifyContent: 'center',
+        marginTop: 40,
+    },
+    addButtonText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 24,
     },
 });

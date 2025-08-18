@@ -61,7 +61,7 @@ export default function Login() {
         setIsLoading(true);
 
         try {
-            const response = await fetch('https://rankly-9jlj.onrender.com/auth/login', { // Substitua pela URL da sua API
+            const response = await fetch('https://rankly-9jlj.onrender.com/auth/login', { 
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
