@@ -1,47 +1,27 @@
-import React, { useEffect } from 'react';
-import { useFonts } from 'expo-font';
-import { Stack } from "expo-router";
-import * as SplashScreen from "expo-splash-screen";
-import { Colors } from '../styles/globalStyles';
+import React from 'react';
+import { Tabs } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const [fontsLoaded] = useFonts({
-    PressStart2P: require('../assets/fonts/PressStart2P-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
-
-  if (!fontsLoaded) return null;
-
+export default function TabsLayout() {
   return (
-    <Stack
-	  screenOptions={{
-		headerShown: false,
-	  }}
-	>
-	  {/* Define the initial route */}
-      <Stack.Screen
-        name="index"
-        options={{
-          title: 'Index',
-        }}
-      />
-      <Stack.Screen
-        name="login"
-        options={{
-        }}
-		  />
-      <Stack.Screen
-        name="sign_up"
-        options={{
-        }}
-		  />
-    </Stack>
+    <Tabs
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => {
+          let iconName: React.ComponentProps<typeof Ionicons>['name'];
+
+          if (route.name === 'home') iconName = 'home';
+          else if (route.name === 'profile') iconName = 'person';
+          else iconName = 'ellipse'; // fallback
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor: '#6200ee',
+        tabBarInactiveTintColor: 'gray',
+      })}
+    >
+      <Tabs.Screen name="home" />
+      <Tabs.Screen name="profile" />
+    </Tabs>
   );
 }
