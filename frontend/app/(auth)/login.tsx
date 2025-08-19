@@ -233,9 +233,9 @@ const styles = StyleSheet.create({
         textShadowColor: '#AD5CC9',
         textShadowOffset: { width: 1.5, height: 1.5 },
         textShadowRadius: 1,
-        fontSize: 30,
+        fontSize: 38,
         textAlign: 'center',
-        marginTop: 10,
+        marginTop: 0,
     },
 
     title: {
@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
         fontFamily: 'PressStart2P',
         textShadowColor: Colors.primary,
         textShadowOffset: { width: 1.5, height: 1.5 },
-        textShadowRadius: 1,
+        textShadowRadius: 3,
         marginTop: 0,
     },
 

@@ -20,10 +20,10 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      {/* ↓ APENAS estas 2 telas devem ficar ↓ */}
       <Tabs.Screen name="home" />
       <Tabs.Screen name="profile" />
-
     </Tabs>
   );
 }
+
+// ↓↓ NADA MAIS! ↓↓
