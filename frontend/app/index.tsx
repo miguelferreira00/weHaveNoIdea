@@ -10,16 +10,16 @@ export default function Index() {
       {/* Background Image */}
       <View style={styles.imageContainer}>
         <Image
-          source={require('../../assets/images/test/groupIndex.png')}
+          source={require('../assets/images/test/groupIndex.png')}
           style={styles.backgroundImage}
         />
         {/* Decorative elements */}
         <Image
-          source={require('../../assets/images/test/relevoCima.png')}
+          source={require('../assets/images/test/relevoCima.png')}
           style={styles.backgroundRelevanceright}
         />
         <Image
-          source={require('../../assets/images/test/relevoCima.png')}
+          source={require('../assets/images/test/relevoCima.png')}
           style={styles.backgroundRelevanceleft}
         />
       </View>
@@ -30,7 +30,7 @@ export default function Index() {
         <View style={styles.contentContainer}>
           {/* Background image for the container */}
           <Image
-            source={require('../../assets/images/test/indexButtonsContainer.png')}
+            source={require('../assets/images/test/indexButtonsContainer.png')}
             style={styles.containerBackground}
             resizeMode="contain"
           />
@@ -52,7 +52,7 @@ export default function Index() {
         
         {/* Logo */}
         <Image
-          source={require('../../assets/images/test/logo.jpeg')}
+          source={require('../assets/images/test/logo.jpeg')}
           style={styles.logoImage}
           resizeMode="cover"
         />

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { TextInput } from 'react-native-paper'
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Pressable } from 'react-native';
-import { Colors } from '../../styles/globalStyles';
-import { Button } from '../../components/ui/Button';
+import { Colors } from '../styles/globalStyles';
+import { Button } from '../components/ui/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
 
@@ -47,9 +47,6 @@ export default function groupCreation() {
         }
 
 
-        
-        // Aqui você pode implementar a lógica para criar um grupo
-        // Por exemplo, enviar uma requisição para o backend
     };
     return(
         <View>

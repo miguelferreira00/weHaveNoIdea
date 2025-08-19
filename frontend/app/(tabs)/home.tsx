@@ -89,7 +89,7 @@ export default function Home() {
             )}
             <TouchableOpacity 
                 style={styles.addButton}
-                onPress={() => router.push('/(tabs)/groupCreation')}
+                onPress={() => router.push('../groupCreation')}
             >
                 <Text style={styles.addButtonText}>+</Text>
             </TouchableOpacity>

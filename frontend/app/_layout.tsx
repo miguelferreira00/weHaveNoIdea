@@ -12,7 +12,7 @@ export default function TabsLayout() {
 
           if (route.name === 'home') iconName = 'home';
           else if (route.name === 'profile') iconName = 'person';
-          else iconName = 'ellipse'; // fallback
+          else iconName = 'ellipse';
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
@@ -20,8 +20,10 @@ export default function TabsLayout() {
         tabBarInactiveTintColor: 'gray',
       })}
     >
+      {/* ↓ APENAS estas 2 telas devem ficar ↓ */}
       <Tabs.Screen name="home" />
       <Tabs.Screen name="profile" />
+
     </Tabs>
   );
 }
