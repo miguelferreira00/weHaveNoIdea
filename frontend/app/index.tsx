@@ -1,173 +1,183 @@
-import React from 'react';
-import { useFonts } from 'expo-font';
-import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
+import { useState } from 'react';
+import { TextInput } from 'react-native-paper'
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, FlatList, Pressable } from 'react-native';
+import { Colors } from '../styles/globalStyles';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Button } from '../components/ui/Button';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { router } from 'expo-router';
+import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
+export default function groupCreation() {
+    const [groupName, setGroupName] = useState('');
+    const [groupDescription, setGroupDescription] = useState('');
+    const [groupNickname, setGroupNickname] = useState('');
+    const [groupImage, setGroupImage] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
-export default function Index() {
-  return (
-    <View style={styles.container}>
-      {/* Background Image */}
-      <View style={styles.imageContainer}>
-        <Image
-          source={require('../assets/images/test/groupIndex.png')}
-          style={styles.backgroundImage}
-        />
-        {/* Decorative elements */}
-        <Image
-          source={require('../assets/images/test/relevoCima.png')}
-          style={styles.backgroundRelevanceright}
-        />
-        <Image
-          source={require('../assets/images/test/relevoCima.png')}
-          style={styles.backgroundRelevanceleft}
-        />
-      </View>
-
-      {/* Overlay Content */}
-      <View style={styles.overlayContainer}>
-        {/* Container with background image and content */}
-        <View style={styles.contentContainer}>
-          {/* Background image for the container */}
-          <Image
-            source={require('../assets/images/test/indexButtonsContainer.png')}
-            style={styles.containerBackground}
-            resizeMode="contain"
-          />
-          
-          {/* App Name */}
-          <Text style={styles.appName}>RANKLY</Text>
-          
-          {/* Buttons */}
-          <View style={styles.buttonsWrapper}>
-            <Pressable style={styles.button} onPress={() => router.push('/(auth)/login')}>
-              <Text style={styles.buttonText}>LOGIN</Text>
-            </Pressable>
+    const handleGroupCreation = async () => {
+        setIsLoading(true);
+        try{
+            const token = await AsyncStorage.getItem('authToken');
+            const response = await fetch('https://rankly-9jlj.onrender.com/groups/create', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: groupName,
+                    description: groupDescription,
+                    groupNickname: groupNickname,
+                }),
+            });
             
-            <Pressable style={[styles.button, styles.secondButton]} onPress={() => router.push('/(auth)/sign_up')}>
-              <Text style={styles.secondButtonText}>SIGN UP</Text>
-            </Pressable>
-          </View>
+            if(response.ok){
+                const data = await response.json();
+                console.log('Group created successfully:', data);
+                router.push('/(tabs)/home');
+            } else if(response.status === 401){
+                await AsyncStorage.removeItem('authToken');
+                router.push('/(auth)/login');
+            } else {
+                console.error('Erro na resposta:', response.status + ' ' + response.statusText);
+            }
+        } catch (error) {
+            console.error("Error creating group:", error);
+        } finally {
+            setIsLoading(false);
+        }
+
+
+    };
+
+    const pickImage = async () => {
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      
+        if (!permissionResult.granted) {
+          alert('Precisamos de permissão para aceder à galeria!');
+          return;
+        }
+      
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          quality: 1,
+        });
+      
+        if (!result.canceled) {
+          setGroupImage(result.assets[0].uri);
+        }
+      };
+      
+    return(
+        <View>
+            <View className='header' style={styles.header}>
+                {/* Design */}
+                <Svg>
+                    <Circle cx="-20%" cy="-20%" r="65%" fill="#AD5CC9"/>
+                    <Circle cx="85%" cy="80%" r="55%" fill="#2D336B"/>
+                    <Circle cx="85%" cy="80%" r="20%" fill="#7886C7"/>
+                
+                    <Circle cx="10%" cy="110%" r="50%" fill="#A9B5DF"/>
+                </Svg>
+                <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
+                    <Image
+                    source={require('../assets/images/test/camera_icon.png')}
+                    />
+                </TouchableOpacity>
+
+                {groupImage && (
+                <Image source={{ uri: groupImage }} style={styles.previewImage} />
+                )}
+
+
+            </View>
+            <View className='bottomSection'>
+
+            </View>
+            <TextInput
+                className='groupNameBox'
+                label={'Group Name'}
+                value={groupName}
+                onChangeText={(text) => {
+                    setGroupName(text);
+                }}
+                mode='outlined'
+                style={styles.textInput}
+            />
+            <TextInput
+                className='descriptionBox'
+                label={'Group Description'}
+                value={groupDescription}
+                onChangeText={(text) => {
+                    setGroupDescription(text);
+                }}
+                mode='outlined'
+                style={styles.textInput}
+            />
+            <TextInput
+                className='groupNicknameBox'
+                label={'Nickname'}
+                value={groupNickname}
+                onChangeText={(text) => {
+                    setGroupNickname(text);
+                }}
+                mode='outlined'
+                style={styles.textInput}
+            />
+            <Button
+                title={isLoading ? "Creating..." : "Create Group"}
+                iconName="login"
+                onPress={handleGroupCreation}
+                style={styles.button}
+                />
         </View>
         
-        {/* Logo */}
-        <Image
-          source={require('../assets/images/test/logo.jpeg')}
-          style={styles.logoImage}
-          resizeMode="cover"
-        />
-      </View>
-    </View>
-  );
+        
+    );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFF2F2',
-  },
-  imageContainer: {
-    position: 'absolute',
-    top: 110,
-    left: -30,
-    right: 0,
-    bottom: 0,
-    zIndex: 0,
-  },
-  backgroundImage: {
-    width: 430,
-    height: 400,
-    resizeMode: 'cover',
-  },
-  backgroundRelevanceright: {
-    position: 'absolute',
-    top: -180,
-    left: -160,
-    width: '100%',
-    height: 200,
-    transform: [{ scale: 5 }, { rotate: '180deg' }],
-    resizeMode: 'contain',
-  },
-  backgroundRelevanceleft: {
-    position: 'absolute',
-    top: -180,
-    left: 200,
-    width: '100%',
-    height: 200,
-    transform: [{ scale: 5 }],
-    resizeMode: 'contain',
-  },
-  overlayContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    zIndex: 1,
-    marginTop: 50,
-  },
-  contentContainer: {
-    width: 300,
-    height: 300,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
-  containerBackground: {
-    position: 'absolute',
-    marginTop: -50,
-    width: '100%',
-    height: '100%',
-    transform: [{ scale: 8.5 }],
-  },
-  appName: {
-    fontFamily: 'PressStart2P',
-    color: 'white',
-    fontSize: 45,
-    textAlign: 'center',
-    marginTop: -20, // Ajuste para posicionar o texto
-    marginBottom: 40,
-  },
-  buttonsWrapper: {
-    width: '100%',
-    alignItems: 'center',
-    marginTop: 20,
-  },
-  button: {
-    backgroundColor: '#AD5CC9',
-    paddingVertical: 12,
-    paddingHorizontal: 28,
-    borderRadius: 10,
-    borderColor: 'yellow',
-    width: 160,
-    height: 65,
-    marginBottom: 20,
-  },
-  secondButton: {
-    marginBottom: 0,
-    backgroundColor: '#FFf',
-    borderColor: '#AD5CC9',
-    borderWidth: 4,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-
-  secondButtonText: {
-    color: '#AD5CC9',
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  logoImage: {
-    width: 90,
-    height: 90,
-    borderRadius: 35,
-    borderWidth: 2,
-    borderColor: '#AD5CC9',
-    marginTop: -400,
-  },
+    header:{
+        backgroundColor: '#7886C7',
+        height: 325,
+    },
+    imagePicker: {
+        backgroundColor: '#6A11CB',
+        padding: 10,
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        left: '50%',
+        transform: [{ translateX: -50 }],
+        marginTop: '-50%',
+        width: 100,
+        height: 100,
+    },
+      
+    previewImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+    },
+    button:{
+        backgroundColor: '#6A11CB',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        marginTop: 80,
+        width: 75,
+    },
+    textInput:{
+        marginTop: 50,
+        width: '80%',
+        height: 60,
+        backgroundColor: 'transparent',
+        borderRadius: 30,
+        color: 'black',
+        borderColor: Colors.primary,
+    }
 });

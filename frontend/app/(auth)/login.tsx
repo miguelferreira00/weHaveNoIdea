@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import { useFonts } from 'expo-font';
 import { View, Text, Image, Pressable, StyleSheet, Dimensions, Alert, TouchableOpacity, Animated } from 'react-native';
 import { router } from 'expo-router';
-import Svg, { Path } from 'react-native-svg';
 import { TextInput } from 'react-native-paper'
 import { Background } from '@react-navigation/elements';
 import { LinearGradient } from 'expo-linear-gradient';
