@@ -208,7 +208,7 @@ export default function SignUp() {
                     />
                     {passwordError && (
                         <Text style={styles.errorMessage}>
-                            Please enter your password
+                            Your password must be at least 6 characters long
                         </Text>
                     )}
                 </Animated.View>
