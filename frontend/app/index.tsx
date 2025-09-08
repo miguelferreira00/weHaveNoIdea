@@ -84,9 +84,7 @@ export default function groupCreation() {
                     <Circle cx="10%" cy="110%" r="50%" fill="#A9B5DF"/>
                 </Svg>
                 <TouchableOpacity onPress={pickImage} style={styles.imagePicker}>
-                    <Image
-                    source={require('../assets/images/test/camera_icon.png')}
-                    />
+                    <MaterialIcons name='account-box'/>
                 </TouchableOpacity>
 
                 {groupImage && (
